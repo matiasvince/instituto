@@ -14,7 +14,7 @@ class CursosProfesoresRepositorio():
         return session.execute(select(CursosProfesoresBd).where(CursosProfesoresBd.id_profesor == id_profesor)).scalars().all()
 
     def agregar(self, datos: CursosProfesoresApi, session:Session):
-        instancia_bd = CursosProfesoresBd(id_curso= datos.id_curso, id_profesor= datos.id_profesor)
+        instancia_bd = CursosProfesoresBd(id_curso= datos.id_curso, id_profesor= datos.id_profesor, cargo= datos.cargo)
         session.add(instancia_bd)
         session.commit()
         return instancia_bd

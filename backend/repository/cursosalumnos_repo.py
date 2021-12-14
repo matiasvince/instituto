@@ -2,6 +2,8 @@ from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from models.cursosalumnos_modelos import CursosAlumnosApi, CursosAlumnosBd
+from models.alumnos_modelos import AlumnosApi, AlumnosBd
+
 
 class CursosAlumnosRepositorio():
     def get_all(self, session: Session):
@@ -9,7 +11,7 @@ class CursosAlumnosRepositorio():
 
     def cursosalumnos_por_idcurso(self, id_curso:int, session:Session):
         return session.execute(select(CursosAlumnosBd).where(CursosAlumnosBd.id_curso == id_curso)).scalars().all()
-
+        
     def cursosalumnos_por_legajo(self, legajo:int, session:Session):
         return session.execute(select(CursosAlumnosBd).where(CursosAlumnosBd.legajo == legajo)).scalars().all()
 
