@@ -82,7 +82,7 @@ const CursosListado = () => {
                                         <td>{curso.fecha_fin}</td>
                                         <td>{curso.cantidad_alumnos}</td>
                                         <td>
-                                            <button type="button" className="btn btn-primary" onClick={() => { history.push(`/administrar/${curso.id}`)}}>Administrar</button>
+                                            <button type="button" className="btn btn-primary" onClick={() => history.push(`/administrar/${curso.id}`)}>Administrar</button>
                                             <button type="button" className="btn btn-warning ms-3" onClick={() => history.push(`/cursos/${curso.id}`)}><AiOutlineEdit style={icon_style} /></button>
                                             <button type="button" className="btn btn-danger ms-3" onClick={() => eliminarCurso(curso.id)}><MdOutlineDelete style={icon_style} /></button>
                                         </td>

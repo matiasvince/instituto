@@ -1,6 +1,6 @@
 from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import select
+from sqlalchemy import select, and_, func
 from models.cursosprofesores_modelos import CursosProfesoresApi, CursosProfesoresBd
 
 class CursosProfesoresRepositorio():
@@ -15,9 +15,14 @@ class CursosProfesoresRepositorio():
 
     def agregar(self, datos: CursosProfesoresApi, session:Session):
         instancia_bd = CursosProfesoresBd(id_curso= datos.id_curso, id_profesor= datos.id_profesor, cargo= datos.cargo)
-        session.add(instancia_bd)
-        session.commit()
-        return instancia_bd
+        if((session.execute('SELECT COUNT(*) FROM cursosprofesores cp WHERE cp.id_curso = :id_curso AND cp.cargo = :cargo', {"id_curso": datos.id_curso, "cargo": datos.cargo})).scalar() == 1):
+            raise HTTPException(status_code=404, detail='Ya existe un profesor con ese cargo en ese curso')
+        try:
+           session.add(instancia_bd)
+           session.commit()
+           return instancia_bd
+        except:
+            raise HTTPException(status_code=400, detail='Hubo un error al agregar el profesor en el curso.')
 
     def borrar(self, datos: CursosProfesoresApi, session:Session):
         instancia_bd = session.get(CursosProfesoresBd, {"id_curso": datos.id_curso, "id_profesor": datos.id_profesor})

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useHistory, useParams } from 'react-router';
-import { MdAdd } from "react-icons/md"
+import { MdOutlineDelete } from "react-icons/md"
+import { AiOutlineEdit } from "react-icons/ai"
 
 const Administrar = () => {
 
@@ -15,16 +16,34 @@ const Administrar = () => {
         setProfesores([])
         obtenerProfesores();
         obtenerAlumnos();
+        checkearCantidadAlumnos();
     }, []);
 
+    const checkearCantidadAlumnos = () => {
+        axios.get(`http://localhost:8000/cursos/${id_curso}`)
+            .then((response) => {
+                if (response.data.cantidad_alumnos <= alumnos.length) {
+                    var s = document.getElementById('agregar_alumno');
+                    s.setAttribute('disabled', 'disabled');
+                }
+            });
+    }
+
     const obtenerAlumnos = () => {
+        setAlumnos([]);
         axios.get(`http://localhost:8000/cursosalumnos/id_curso/${id_curso}`)
             .then((response) => {
                 const cursoalumnos = response.data;
                 cursoalumnos.map((alumn) => {
                     axios.get(`http://localhost:8000/alumnos/${alumn.legajo}`)
                         .then((response) => {
-                            setAlumnos(alumnos => [...alumnos, response.data]);
+                            const final = {
+                                legajo: response.data.legajo,
+                                nombre: response.data.nombre,
+                                apellido: response.data.apellido,
+                                estado: alumn.estado
+                            }
+                            setAlumnos(alumnos => [...alumnos, final]);
                         })
                         .catch((error) => {
                             console.log(error);
@@ -61,6 +80,16 @@ const Administrar = () => {
             })
     }
 
+    const eliminarAlumno = (legajo) => {
+        axios.delete(`http://localhost:8000/cursosalumnos/${id_curso}/${legajo}`)
+            .then(() => {
+                alert('El alumno se elimino del curso');
+                obtenerAlumnos();
+            })
+            .catch(() => alert('Hubo un error al eliminar el alumno.'));
+    }
+
+    let icon_style = { fontSize: "1.1em" };
 
     return (
         <>
@@ -69,8 +98,17 @@ const Administrar = () => {
             </div>
             <div className="container">
                 <div className="justify-center mt-3">
-                <div className='mb-5'>
-                        <h2>Profesores</h2>
+                    <div className='mb-5'>
+                        <div className='container'>
+                            <div className='row'>
+                                <div className='col-8'>
+                                    <h2>Profesores</h2>
+                                </div>
+                                <div className='col-4 d-flex flex-row-reverse'>
+                                    <button className='btn btn-primary' onClick={() => { history.push(`/administrar/profesor/nuevo`) }}>Agregar</button>
+                                </div>
+                            </div>
+                        </div>
                         <table className="table">
                             <thead>
                                 <tr>
@@ -96,13 +134,24 @@ const Administrar = () => {
                     </div>
 
                     <div>
-                        <h2>Alumnos</h2>
+                        <div className='container'>
+                            <div className='row'>
+                                <div className='col-8'>
+                                    <h2>Alumnos</h2>
+                                </div>
+                                <div className='col-4 d-flex flex-row-reverse'>
+                                    <button className='btn btn-primary' id='agregar_alumno' onClick={() => history.push(`/administraralumno/nuevo/${id_curso}`)}>Agregar</button>
+                                </div>
+                            </div>
+                        </div>
                         <table className="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Legajo</th>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Apellido</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -112,6 +161,11 @@ const Administrar = () => {
                                             <th>{alumno.legajo}</th>
                                             <td>{alumno.nombre}</td>
                                             <td>{alumno.apellido}</td>
+                                            <td>{alumno.estado}</td>
+                                            <td>
+                                                <button type="button" className="btn btn-warning ms-3" onClick={() => history.push(`/administraralumno/${id_curso}/${alumno.legajo}`)}><AiOutlineEdit style={icon_style} /></button>
+                                                <button type="button" className="btn btn-danger ms-3" onClick={() => eliminarAlumno(alumno.legajo)}><MdOutlineDelete style={icon_style} /></button>
+                                            </td>
                                         </tr>
                                     </>
                                 })}

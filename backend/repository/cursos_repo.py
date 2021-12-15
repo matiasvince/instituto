@@ -35,11 +35,13 @@ class CursosRepositorio():
             raise HTTPException(status_code=404, detail='Curso no encontrado')
         
         try:
-            instancia_bd.nombre = datos.nombre
-            instancia_bd.fecha_inicio = datos.fecha_inicio
-            instancia_bd.fecha_fin = datos.fecha_fin
-            instancia_bd.cantidad_alumnos = datos.cantidad_alumnos
-
-            session.commit()
+            if((session.execute('SELECT COUNT(*) FROM cursosalumnos ca WHERE ca.id_curso = :id_curso', {'id_curso': id})).scalar() <= (datos.cantidad_alumnos)):
+                instancia_bd.nombre = datos.nombre
+                instancia_bd.fecha_inicio = datos.fecha_inicio
+                instancia_bd.fecha_fin = datos.fecha_fin
+                instancia_bd.cantidad_alumnos = datos.cantidad_alumnos
+                session.commit()
+            else:
+                raise HTTPException(status_code=400, detail='Hubo un error. Probablemente deba borrar algunos alumnos')
         except:
             raise HTTPException(status_code=400, detail='No se puede modificar el curso.')

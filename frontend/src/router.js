@@ -7,6 +7,7 @@ import AlumnosFormulario from "./components/alumnos/AlumnosFormulario";
 import CursosListado from "./components/cursos/CursosListado";
 import CursosFormulario from "./components/cursos/CursosFormulario";
 import Administrar from "./components/cursos/Administrar";
+import CursosAlumnosFormulario from "./components/cursos/CursosAlumnosFormulario";
 
 const RouterComponent = () => {
     return (
@@ -39,7 +40,11 @@ const RouterComponent = () => {
                 <Route path='/cursos' exact component={CursosListado} />
                 <Route path='/cursos/nuevo' component={CursosFormulario} />
                 <Route path='/cursos/:id_curso' component={CursosFormulario} />
+
                 <Route path='/administrar/:id_curso' component={Administrar} />
+                <Route path='/administraralumno/nuevo/:id_curso' component={CursosAlumnosFormulario} />
+                <Route path='/administraralumno/:id_curso/:legajo' component={CursosAlumnosFormulario} />
+                <Route path='/administrarprofesor/nuevo/:id_curso' component={CursosAlumnosFormulario} />
 
 
                 <Route path='/'>
