@@ -19,7 +19,7 @@ def get_by_legajo(legajo: int, s:Session = Depends(get_session)):
         raise HTTPException(status_code=404, detail='Alumno no encontrado')
     return cat
 
-@alumnos_router.get('/buscar/{nombre}')
+@alumnos_router.get('/buscar/{apellido}')
 def get_by_apellido(apellido:str, s:Session = Depends(get_session)):
     return repo.alumnos_por_apellido(apellido, s)
 

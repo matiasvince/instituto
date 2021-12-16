@@ -36,6 +36,28 @@ class CursosAlumnosRepositorio():
             session.commit()
         except:
             raise HTTPException(status_code=400, detail='No se puede borrar el curso asignado al alumno.')
+
+    def borrar_curso(self, id_curso:int, session:Session):
+        instancia_bd = session.execute('SELECT COUNT(*) FROM cursosalumnos cp WHERE cp.id_curso = :id_curso', {'id_curso': id_curso}).scalar()
+        if instancia_bd == 0:
+            raise HTTPException(status_code=404, detail='Curso no encontrado')
+        try:
+            session.query(CursosAlumnosBd).filter(CursosAlumnosBd.id_curso == id_curso).\
+                delete()
+            session.commit()
+        except:
+            raise HTTPException(status_code=400, detail='No se puede borrar el curso.')
+    
+    def borrar_alumno(self, legajo:int, session:Session):
+        instancia_bd = session.execute('SELECT COUNT(*) FROM cursosalumnos cp WHERE cp.legajo = :legajo', {'legajo': legajo}).scalar()
+        if instancia_bd == 0:
+            raise HTTPException(status_code=404, detail='Alumno no encontrado')
+        try:
+            session.query(CursosAlumnosBd).filter(CursosAlumnosBd.legajo == legajo).\
+                delete()
+            session.commit()
+        except:
+            raise HTTPException(status_code=400, detail='No se puede borrar el alumno.')
         
     def actualizar(self, id_curso:int, legajo:int, datos:CursosAlumnosSinIds, session:Session):
         instancia_bd = session.get(CursosAlumnosBd, {"id_curso": id_curso, "legajo": legajo})

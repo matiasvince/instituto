@@ -26,17 +26,34 @@ def get_by_id_profesor(id_profesor: int, s:Session = Depends(get_session)):
         raise HTTPException(status_code=404, detail='Profesor no encontrado')
     return cat
 
+@cursosprofesores_router.get('/ids/{id_curso}/{id_profesor}')
+def get_by_ids(id_curso:int, id_profesor: int, s:Session = Depends(get_session)):
+    cat = repo.cursosprofesores_por_ids(id_curso, id_profesor, s)
+    if cat is None:
+        raise HTTPException(status_code=404, detail='Profesor no encontrado en el curso')
+    return cat
+
 @cursosprofesores_router.post('/', response_model=CursosProfesoresApi)
 def agregar(datos: CursosProfesoresApi, s:Session = Depends(get_session)):
     curso = repo.agregar(datos, s)
     return curso
 
-@cursosprofesores_router.delete('/{id_curso}/{id_profesor}')
+@cursosprofesores_router.delete('/ids/{id_curso}/{id_profesor}')
 def borrar(id_curso:int, id_profesor:int, s:Session = Depends(get_session)):
     datos = CursosProfesoresApi
     datos.id_curso = id_curso
     datos.id_profesor = id_profesor
     repo.borrar(datos, s)
+    return "Se eliminó correctamente"
+
+@cursosprofesores_router.delete('/curso/{id_curso}')
+def borrar_curso(id_curso:int, s:Session = Depends(get_session)):
+    repo.borrar_curso(id_curso, s)
+    return "Se eliminó correctamente"
+
+@cursosprofesores_router.delete('/profesor/{id_profesor}')
+def borrar_profesor(id_profesor:int, s:Session = Depends(get_session)):
+    repo.borrar_profesor(id_profesor, s)
     return "Se eliminó correctamente"
 
 @cursosprofesores_router.put('/{id_curso}/{id_profesor}', response_model=CursosProfesoresApi)

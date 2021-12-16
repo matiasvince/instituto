@@ -18,12 +18,26 @@ const CursosListado = () => {
     }, []);
 
     const eliminarCurso = (id) => {
-        axios.delete(`http://localhost:8000/cursos/${id}`)
+        axios.delete(`http://localhost:8000/cursosprofesores/curso/${id}`)
             .then(() => {
-                alert('La curso se elimino');
-                obtenerCursos();
+                axios.delete(`http://localhost:8000/cursosalumnos/curso/${id}`)
+                    .then(() => {
+                        axios.delete(`http://localhost:8000/cursos/${id}`)
+                            .then(() => {
+                                alert('La curso se elimino');
+                                obtenerCursos();
+                            })
+                            .catch(() => alert('Hubo un error al eliminar el curso.'));
+                    })
+                    .catch(() => {
+                        axios.delete(`http://localhost:8000/cursos/${id}`)
+                            .then(() => {
+                                alert('La curso se elimino');
+                                obtenerCursos();
+                            })
+                            .catch(() => alert('Hubo un error al eliminar el curso.'));
+                    })
             })
-            .catch(() => alert('Hubo un error al eliminar el curso.'));
     }
 
     const obtenerCursos = () => {
@@ -49,7 +63,7 @@ const CursosListado = () => {
             })
     }
 
-    let icon_style = {fontSize: "1.1em"};
+    let icon_style = { fontSize: "1.1em" };
 
     return (
         <>
@@ -69,7 +83,7 @@ const CursosListado = () => {
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Fecha inicio</th>
                                 <th scope="col">Fecha fin</th>
-                                <th scope="col">Cantidad de alumnos</th>
+                                <th scope="col">Maximo alumnos</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,7 +108,7 @@ const CursosListado = () => {
                 </div>
             </div>
 
-            <button className='btn btn-primary' style={{ position: 'fixed', bottom: 20, right: 20 }} onClick={() => history.push(`/cursos/nuevo`)}>Agregar<MdAdd className='ms-2' style={icon_style} type= "button"/></button>
+            <button className='btn btn-primary' style={{ position: 'fixed', bottom: 20, right: 20 }} onClick={() => history.push(`/cursos/nuevo`)}>Agregar<MdAdd className='ms-2' style={icon_style} type="button" /></button>
         </>
     );
 }

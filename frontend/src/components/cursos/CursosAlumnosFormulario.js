@@ -2,10 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useHistory, useParams } from 'react-router';
 
-const CursoAlumnosFormulario = () => {
+const CursosAlumnosFormulario = () => {
     const legajoInputRef = useRef();
-    // const nombreInputRef = useRef();
-    // const apellidoInputRef = useRef();
     const estadoInputRef = useRef();
 
     const history = useHistory();
@@ -93,6 +91,7 @@ const CursoAlumnosFormulario = () => {
 
     //Arreglar para que se use con obtener con legajo y id_curso, directamente llamando por el back
     const obtenerAlumnos = () => {
+        setAlumnos([]);
         axios.get('http://localhost:8000/alumnos')
             .then((response) => {
                 const alumns = response.data;
@@ -168,4 +167,4 @@ const CursoAlumnosFormulario = () => {
     );
 }
 
-export default CursoAlumnosFormulario;
+export default CursosAlumnosFormulario;

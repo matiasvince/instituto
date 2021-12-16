@@ -19,12 +19,31 @@ const ProfesoresListado = () => {
     }, []);
 
     const eliminarProfesor = (id) => {
-        axios.delete(`http://localhost:8000/profesores/${id}`)
-            .then(() => {
-                alert('El profesor se elimino');
-                obtenerProfesores();
+        axios.get(`http://localhost:8000/cursosprofesores/id_profesor/${id}`)
+            .then((response) => {
+                if (!response.data.some(profe => profe.cargo == 'Titular')) {
+                    axios.delete(`http://localhost:8000/cursosprofesores/profesor/${id}`)
+                        .then(() => {
+                            axios.delete(`http://localhost:8000/profesores/${id}`)
+                                .then(() => {
+                                    alert('El profesor se elimino');
+                                    obtenerProfesores();
+                                })
+                                .catch(() => alert('Hubo un error al eliminar el profesor.'));
+                        })
+                        .catch(() => {
+                            axios.delete(`http://localhost:8000/profesores/${id}`)
+                                .then(() => {
+                                    alert('El profesor se elimino');
+                                    obtenerProfesores();
+                                })
+                                .catch(() => alert('Hubo un error al eliminar el profesor.'));
+                        })
+                }
+                else {
+                    alert('El profesor es titular en algun curso')
+                }
             })
-            .catch(() => alert('Hubo un error al eliminar el profesor.'));
     }
 
     const obtenerProfesores = () => {
@@ -35,6 +54,7 @@ const ProfesoresListado = () => {
             .catch((error) => {
                 console.log(error);
             })
+        apellidoInputRef.current.value = "";
     }
 
     const buscarProfesores = () => {
@@ -49,7 +69,7 @@ const ProfesoresListado = () => {
             })
     }
 
-    let icon_style = {fontSize: "1.1em"};
+    let icon_style = { fontSize: "1.1em" };
 
     return (
         <>
@@ -68,6 +88,7 @@ const ProfesoresListado = () => {
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Apellido</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,7 +111,7 @@ const ProfesoresListado = () => {
                 </div>
             </div>
 
-            <button className='btn btn-primary' style={{ position: 'fixed', bottom: 20, right: 20 }} onClick={() => history.push(`/profesores/nuevo`)}>Agregar<MdAdd className='ms-2' style={icon_style} type= "button"/></button>
+            <button className='btn btn-primary' style={{ position: 'fixed', bottom: 20, right: 20 }} onClick={() => history.push(`/profesores/nuevo`)}>Agregar<MdAdd className='ms-2' style={icon_style} type="button" /></button>
         </>
     );
 }

@@ -38,12 +38,22 @@ def agregar(datos: CursosAlumnosApi, s:Session = Depends(get_session)):
     curso = repo.agregar(datos, s)
     return curso
 
-@cursosalumnos_router.delete('/{id_curso}/{legajo}')
+@cursosalumnos_router.delete('/ids/{id_curso}/{legajo}')
 def borrar(id_curso:int, legajo:int, s:Session = Depends(get_session)):
     datos = CursosAlumnosApi
     datos.id_curso = id_curso
     datos.legajo = legajo
     repo.borrar(datos, s)
+    return "Se eliminó correctamente"
+
+@cursosalumnos_router.delete('/curso/{id_curso}')
+def borrar_curso(id_curso:int, s:Session = Depends(get_session)):
+    repo.borrar_curso(id_curso, s)
+    return "Se eliminó correctamente"
+
+@cursosalumnos_router.delete('/alumno/{legajo}')
+def borrar_profesor(legajo:int, s:Session = Depends(get_session)):
+    repo.borrar_alumno(legajo, s)
     return "Se eliminó correctamente"
 
 @cursosalumnos_router.put('/{id_curso}/{legajo}', response_model=CursosAlumnosSinIds)

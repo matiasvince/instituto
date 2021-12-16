@@ -8,6 +8,7 @@ import CursosListado from "./components/cursos/CursosListado";
 import CursosFormulario from "./components/cursos/CursosFormulario";
 import Administrar from "./components/cursos/Administrar";
 import CursosAlumnosFormulario from "./components/cursos/CursosAlumnosFormulario";
+import CursosProfesoresFormulario from "./components/cursos/CursosProfesoresFormulario";
 
 const RouterComponent = () => {
     return (
@@ -42,10 +43,11 @@ const RouterComponent = () => {
                 <Route path='/cursos/:id_curso' component={CursosFormulario} />
 
                 <Route path='/administrar/:id_curso' component={Administrar} />
+
                 <Route path='/administraralumno/nuevo/:id_curso' component={CursosAlumnosFormulario} />
                 <Route path='/administraralumno/:id_curso/:legajo' component={CursosAlumnosFormulario} />
-                <Route path='/administrarprofesor/nuevo/:id_curso' component={CursosAlumnosFormulario} />
-
+                
+                <Route path='/administrarprofesor/nuevo/:id_curso' component={CursosProfesoresFormulario} />
 
                 <Route path='/'>
                     <Redirect to='/cursos' />

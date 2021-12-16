@@ -18,12 +18,15 @@ const AlumnosListado = () => {
     }, []);
 
     const eliminarAlumno = (legajo) => {
-        axios.delete(`http://localhost:8000/alumnos/${legajo}`)
+        axios.delete(`http://localhost:8000/cursosalumnos/alumno/${legajo}`)
             .then(() => {
-                alert('El alumno se elimino');
-                obtenerAlumnos();
+                axios.delete(`http://localhost:8000/alumnos/${legajo}`)
+                    .then(() => {
+                        alert('El alumno se elimino');
+                        obtenerAlumnos();
+                    })
+                    .catch(() => alert('Hubo un error al eliminar el alumno.'));
             })
-            .catch(() => alert('Hubo un error al eliminar el alumno.'));
     }
 
     const obtenerAlumnos = () => {
@@ -34,6 +37,7 @@ const AlumnosListado = () => {
             .catch((error) => {
                 console.log(error);
             })
+        apellidoInputRef.current.value = "";
     }
 
     const buscarAlumnos = () => {
@@ -66,6 +70,7 @@ const AlumnosListado = () => {
                                 <th scope="col">Legajo</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Apellido</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,7 +93,7 @@ const AlumnosListado = () => {
                 </div>
             </div>
 
-            <button className='btn btn-primary' style={{ position: 'fixed', bottom: 20, right: 20 }} onClick={() => history.push(`/alumnos/nuevo`)}>Agregar<MdAdd className='ms-2' style={icon_style} type= "button"/></button>
+            <button className='btn btn-primary' style={{ position: 'fixed', bottom: 20, right: 20 }} onClick={() => history.push(`/alumnos/nuevo`)}>Agregar<MdAdd className='ms-2' style={icon_style} type="button" /></button>
         </>
     );
 }

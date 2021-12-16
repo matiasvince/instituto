@@ -9,7 +9,7 @@ class CursosProfesoresBd(Base):
 
     id_curso = Column(ForeignKey('cursos.id'), primary_key=True)
     id_profesor = Column(ForeignKey('profesores.id'), primary_key=True)
-    cargo = Column(Enum('Jefe', 'Auxiliar', name='cargo_tipos'), nullable=False)
+    cargo = Column(Enum('Titular', 'Auxiliar', name='cargo_tipos'), nullable=False)
 
 # class CursosAlumnosSinId(BaseModel):
 #     nombre: str
@@ -19,9 +19,9 @@ class CursosProfesoresBd(Base):
 #         orm_mode = True
 
 class CursosProfesoresApi(BaseModel):
+    cargo: str
     id_curso: int
     id_profesor: int
-    cargo: str
 
     class Config:
         orm_mode = True
