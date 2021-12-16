@@ -9,6 +9,8 @@ import CursosFormulario from "./components/cursos/CursosFormulario";
 import Administrar from "./components/cursos/Administrar";
 import CursosAlumnosFormulario from "./components/cursos/CursosAlumnosFormulario";
 import CursosProfesoresFormulario from "./components/cursos/CursosProfesoresFormulario";
+import AlumnoDetalle from "./components/alumnos/AlumnosDetalle";
+import ProfesorDetalle from "./components/profesores/ProfesoresDetalle";
 
 const RouterComponent = () => {
     return (
@@ -33,10 +35,12 @@ const RouterComponent = () => {
                 <Route path='/profesores' exact component={ProfesoresListado} />
                 <Route path='/profesores/nuevo' component={ProfesoresFormulario} />
                 <Route path='/profesores/:id_profesor' component={ProfesoresFormulario} />
+                <Route path='/profesor/detalle/:id_profesor' component={ProfesorDetalle} />
 
                 <Route path='/alumnos' exact component={AlumnosListado} />
                 <Route path='/alumnos/nuevo' component={AlumnosFormulario} />
                 <Route path='/alumnos/:legajo' component={AlumnosFormulario} />
+                <Route path='/alumno/detalle/:legajo' component={AlumnoDetalle} />
 
                 <Route path='/cursos' exact component={CursosListado} />
                 <Route path='/cursos/nuevo' component={CursosFormulario} />

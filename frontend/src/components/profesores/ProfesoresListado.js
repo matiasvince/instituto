@@ -100,6 +100,7 @@ const ProfesoresListado = () => {
                                         <td>{profesor.apellido}</td>
                                         <td>
                                             {/* <button type="button" className="btn btn-info" onClick={() => {}}>Detalle</button> */}
+                                            <button type="button" className="btn btn-primary ms-2" onClick={() => history.push(`/profesor/detalle/${profesor.id}`)}>Detalle</button>
                                             <button type="button" className="btn btn-warning ms-2" onClick={() => history.push(`/profesores/${profesor.id}`)}><AiOutlineEdit style={icon_style} /></button>
                                             <button type="button" className="btn btn-danger ms-2" onClick={() => eliminarProfesor(profesor.id)}><MdOutlineDelete style={icon_style} /></button>
                                         </td>

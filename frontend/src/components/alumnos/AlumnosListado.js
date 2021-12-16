@@ -82,6 +82,7 @@ const AlumnosListado = () => {
                                         <td>{alumno.apellido}</td>
                                         <td>
                                             {/* <button type="button" className="btn btn-info" onClick={() => { }}>Detalle</button> */}
+                                            <button type="button" className="btn btn-primary ms-3" onClick={() => history.push(`/alumno/detalle/${alumno.legajo}`)}>Detalle</button>
                                             <button type="button" className="btn btn-warning ms-3" onClick={() => history.push(`/alumnos/${alumno.legajo}`)}><AiOutlineEdit style={icon_style} /></button>
                                             <button type="button" className="btn btn-danger ms-3" onClick={() => eliminarAlumno(alumno.legajo)}><MdOutlineDelete style={icon_style} /></button>
                                         </td>
