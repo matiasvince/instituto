@@ -41,7 +41,7 @@ const ProfesoresListado = () => {
                         })
                 }
                 else {
-                    alert('El profesor es titular en algun curso')
+                    alert('No se puede eliminar el profesor porque es titular en algun curso');
                 }
             })
     }

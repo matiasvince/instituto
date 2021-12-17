@@ -18,14 +18,44 @@ const AlumnosListado = () => {
     }, []);
 
     const eliminarAlumno = (legajo) => {
-        axios.delete(`http://localhost:8000/cursosalumnos/alumno/${legajo}`)
+        axios.delete(`http://localhost:8000/asistencias/alumno/${legajo}`)
             .then(() => {
-                axios.delete(`http://localhost:8000/alumnos/${legajo}`)
+                axios.delete(`http://localhost:8000/cursosalumnos/alumno/${legajo}`)
                     .then(() => {
-                        alert('El alumno se elimino');
-                        obtenerAlumnos();
+                        axios.delete(`http://localhost:8000/alumnos/${legajo}`)
+                            .then(() => {
+                                alert('El alumno se elimino');
+                                obtenerAlumnos();
+                            })
+                            .catch(() => alert('Hubo un error al eliminar el alumno.'));
                     })
-                    .catch(() => alert('Hubo un error al eliminar el alumno.'));
+                    .catch(() => {
+                        axios.delete(`http://localhost:8000/alumnos/${legajo}`)
+                            .then(() => {
+                                alert('El alumno se elimino');
+                                obtenerAlumnos();
+                            })
+                            .catch(() => alert('Hubo un error al eliminar el alumno.'));
+                    })
+            })
+            .catch(() => {
+                axios.delete(`http://localhost:8000/cursosalumnos/alumno/${legajo}`)
+                    .then(() => {
+                        axios.delete(`http://localhost:8000/alumnos/${legajo}`)
+                            .then(() => {
+                                alert('El alumno se elimino');
+                                obtenerAlumnos();
+                            })
+                            .catch(() => alert('Hubo un error al eliminar el alumno.'));
+                    })
+                    .catch(() => {
+                        axios.delete(`http://localhost:8000/alumnos/${legajo}`)
+                            .then(() => {
+                                alert('El alumno se elimino');
+                                obtenerAlumnos();
+                            })
+                            .catch(() => alert('Hubo un error al eliminar el alumno.'));
+                    })
             })
     }
 

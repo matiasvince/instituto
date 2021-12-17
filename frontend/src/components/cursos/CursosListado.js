@@ -18,24 +18,87 @@ const CursosListado = () => {
     }, []);
 
     const eliminarCurso = (id) => {
-        axios.delete(`http://localhost:8000/cursosprofesores/curso/${id}`)
+        axios.delete(`http://localhost:8000/asistencias/curso/${id}`)
             .then(() => {
-                axios.delete(`http://localhost:8000/cursosalumnos/curso/${id}`)
+                axios.delete(`http://localhost:8000/cursosprofesores/curso/${id}`)
                     .then(() => {
-                        axios.delete(`http://localhost:8000/cursos/${id}`)
+                        axios.delete(`http://localhost:8000/cursosalumnos/curso/${id}`)
                             .then(() => {
-                                alert('La curso se elimino');
-                                obtenerCursos();
+                                axios.delete(`http://localhost:8000/cursos/${id}`)
+                                    .then(() => {
+                                        alert('La curso se elimino');
+                                        obtenerCursos();
+                                    })
+                                    .catch(() => alert('Hubo un error al eliminar el curso.'));
                             })
-                            .catch(() => alert('Hubo un error al eliminar el curso.'));
+                            .catch(() => {
+                                axios.delete(`http://localhost:8000/cursos/${id}`)
+                                    .then(() => {
+                                        alert('La curso se elimino');
+                                        obtenerCursos();
+                                    })
+                                    .catch(() => alert('Hubo un error al eliminar el curso.'));
+                            })
                     })
                     .catch(() => {
-                        axios.delete(`http://localhost:8000/cursos/${id}`)
+                        axios.delete(`http://localhost:8000/cursosalumnos/curso/${id}`)
                             .then(() => {
-                                alert('La curso se elimino');
-                                obtenerCursos();
+                                axios.delete(`http://localhost:8000/cursos/${id}`)
+                                    .then(() => {
+                                        alert('La curso se elimino');
+                                        obtenerCursos();
+                                    })
+                                    .catch(() => alert('Hubo un error al eliminar el curso.'));
                             })
-                            .catch(() => alert('Hubo un error al eliminar el curso.'));
+                            .catch(() => {
+                                axios.delete(`http://localhost:8000/cursos/${id}`)
+                                    .then(() => {
+                                        alert('La curso se elimino');
+                                        obtenerCursos();
+                                    })
+                                    .catch(() => alert('Hubo un error al eliminar el curso.'));
+                            })
+                    })
+            })
+            .catch(() => {
+                axios.delete(`http://localhost:8000/cursosprofesores/curso/${id}`)
+                    .then(() => {
+                        axios.delete(`http://localhost:8000/cursosalumnos/curso/${id}`)
+                            .then(() => {
+                                axios.delete(`http://localhost:8000/cursos/${id}`)
+                                    .then(() => {
+                                        alert('La curso se elimino');
+                                        obtenerCursos();
+                                    })
+                                    .catch(() => alert('Hubo un error al eliminar el curso.'));
+                            })
+                            .catch(() => {
+                                axios.delete(`http://localhost:8000/cursos/${id}`)
+                                    .then(() => {
+                                        alert('La curso se elimino');
+                                        obtenerCursos();
+                                    })
+                                    .catch(() => alert('Hubo un error al eliminar el curso.'));
+                            })
+                    })
+                    .catch(() => {
+                        axios.delete(`http://localhost:8000/cursosalumnos/curso/${id}`)
+                            .then(() => {
+                                axios.delete(`http://localhost:8000/cursos/${id}`)
+                                    .then(() => {
+                                        alert('La curso se elimino');
+                                        obtenerCursos();
+                                    })
+                                    .catch(() => alert('Hubo un error al eliminar el curso.'));
+                            })
+                            .catch(() => {
+                                axios.delete(`http://localhost:8000/cursos/${id}`)
+                                    .then(() => {
+                                        alert('La curso se elimino');
+                                        obtenerCursos();
+                                    })
+                                    .catch(() => alert('Hubo un error al eliminar el curso.'));
+                            })
                     })
             })
     }

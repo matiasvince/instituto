@@ -41,12 +41,23 @@ const AlumnoDetalle = () => {
     }
 
     const bajaCurso = (id_curso) => {
-        axios.delete(`http://localhost:8000/cursosalumnos/ids/${id_curso}/${legajo}`)
+        axios.delete(`http://localhost:8000/asistencias/ids/${id_curso}/${legajo}`)
             .then(() => {
-                obtenerCursos();
-                alert('El alumno se elimino del curso');
+                axios.delete(`http://localhost:8000/cursosalumnos/ids/${id_curso}/${legajo}`)
+                    .then(() => {
+                        obtenerCursos();
+                        alert('El alumno se elimino del curso');
+                    })
+                    .catch(() => alert('Hubo un error al eliminar el alumno.'));
             })
-            .catch(() => alert('Hubo un error al eliminar el alumno.'));
+            .catch(() => {
+                axios.delete(`http://localhost:8000/cursosalumnos/ids/${id_curso}/${legajo}`)
+                    .then(() => {
+                        obtenerCursos();
+                        alert('El alumno se elimino del curso');
+                    })
+                    .catch(() => alert('Hubo un error al eliminar el alumno.'));
+            })
     }
 
     const obtenerAlumno = () => {

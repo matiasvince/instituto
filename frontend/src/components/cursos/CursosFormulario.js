@@ -46,10 +46,10 @@ const CursosFormulario = () => {
                             });
                             const curso = response.data;
 
-                            var parts_fi = curso.fecha_inicio.split("/");
+                            var parts_fi = curso.fecha_inicio.split("-");
                             var fi = new Date(Number(parts_fi[2]), Number(parts_fi[1]) - 1, Number(parts_fi[0]));
 
-                            var parts_ff = curso.fecha_fin.split("/");
+                            var parts_ff = curso.fecha_fin.split("-");
                             var ff = new Date(Number(parts_ff[2]), Number(parts_ff[1]) - 1, Number(parts_ff[0]));
 
                             nombreInputRef.current.value = curso.nombre;
@@ -93,8 +93,8 @@ const CursosFormulario = () => {
         return {
             // id: idInputRef.current.value,
             nombre: nombreInputRef.current.value,
-            fecha_inicio: fechaInicio.getDate() + '/' + (fechaInicio.getMonth() + 1) + '/' + fechaInicio.getFullYear(),
-            fecha_fin: fechaFin.getDate() + '/' + (fechaFin.getMonth() + 1) + '/' + fechaFin.getFullYear(),
+            fecha_inicio: fechaInicio.getDate() + '-' + (fechaInicio.getMonth() + 1) + '-' + fechaInicio.getFullYear(),
+            fecha_fin: fechaFin.getDate() + '-' + (fechaFin.getMonth() + 1) + '-' + fechaFin.getFullYear(),
             cantidad_alumnos: cantidad_alumnosInputRef.current.value,
         }
     }
@@ -107,8 +107,8 @@ const CursosFormulario = () => {
         return {
             id: id_curso,
             nombre: nombreInputRef.current.value,
-            fecha_inicio: fechaInicio.getDate() + '/' + (fechaInicio.getMonth() + 1) + '/' + fechaInicio.getFullYear(),
-            fecha_fin: fechaFin.getDate() + '/' + (fechaFin.getMonth() + 1) + '/' + fechaFin.getFullYear(),
+            fecha_inicio: fechaInicio.getDate() + '-' + (fechaInicio.getMonth() + 1) + '-' + fechaInicio.getFullYear(),
+            fecha_fin: fechaFin.getDate() + '-' + (fechaFin.getMonth() + 1) + '-' + fechaFin.getFullYear(),
             cantidad_alumnos: cantidad_alumnosInputRef.current.value,
             id_profesor: profesor_selected
         }
@@ -129,7 +129,7 @@ const CursosFormulario = () => {
                             history.push('/cursos');
                         })
                 })
-                .catch(() => alert("Hubo un error al agregar la curso."));
+                .catch(() => alert("Hubo un error al agregar la curso. Revise todos los campos"));
         }
         else {
             alert('Debe seleccionar un profesor titular');
@@ -152,12 +152,12 @@ const CursosFormulario = () => {
                                         alert('Se edito correctamente');
                                         history.push('/cursos')
                                     })
-                                    .catch(() => alert('Hubo un error al editar la curso.'));
+                                    .catch(() => alert('Hubo un error al editar la curso. Probablemente el profesor que se seleccionó sea el auxiliar del curso'));
                             }
                         })
                     })
             })
-            .catch(() => alert('Hubo un error al editar el curso.'));
+            .catch(() => alert('Hubo un error al editar la curso. Probablemente el profesor que se seleccionó sea el auxiliar del curso'));
     }
 
     const obtenerProfesores = () => {
@@ -200,8 +200,8 @@ const CursosFormulario = () => {
                             {/* <input ref={fecha_finInputRef} type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" /> */}
                         </div>
                         <div className="input-group mb-3">
-                            <span className="input-group-text" id="inputGroup-sizing-default">Cantidad alumnos</span>
-                            <input ref={cantidad_alumnosInputRef} type="number" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                            <span className="input-group-text" id="inputGroup-sizing-default">Maximo alumnos</span>
+                            <input ref={cantidad_alumnosInputRef} type="number" min='1' className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
                         </div>
 
                         <div class="input-group mb-3">

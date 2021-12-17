@@ -74,12 +74,23 @@ const Administrar = () => {
     }
 
     const eliminarAlumno = (legajo) => {
-        axios.delete(`http://localhost:8000/cursosalumnos/ids/${id_curso}/${legajo}`)
+        axios.delete(`http://localhost:8000/asistencias/ids/${id_curso}/${legajo}`)
             .then(() => {
-                obtenerAlumnos();
-                alert('El alumno se elimino del curso');
+                axios.delete(`http://localhost:8000/cursosalumnos/ids/${id_curso}/${legajo}`)
+                    .then(() => {
+                        obtenerAlumnos();
+                        alert('El alumno se elimino del curso');
+                    })
+                    .catch(() => alert('Hubo un error al eliminar el alumno.'));
             })
-            .catch(() => alert('Hubo un error al eliminar el alumno.'));
+            .catch(() => {
+                axios.delete(`http://localhost:8000/cursosalumnos/ids/${id_curso}/${legajo}`)
+                    .then(() => {
+                        obtenerAlumnos();
+                        alert('El alumno se elimino del curso');
+                    })
+                    .catch(() => alert('Hubo un error al eliminar el alumno.'));
+            })
     }
 
     const eliminarProfesor = (id) => {
@@ -102,8 +113,11 @@ const Administrar = () => {
 
     return (
         <>
-            <div className="d-flex bd-highlight mt-3">
-                <h2 className="p-2 w-100 bd-highlight ms-4">CURSO</h2>
+            <div className="d-flex justify-content-between align-items-center mt-3">
+                <h2 className="p-2 ms-4">CURSO</h2>
+                <div className='me-5'>
+                    <button className='btn btn-warning' onClick={() => { history.push(`/asistencias/${id_curso}`) }}>Tomar asistencia</button>
+                </div>
             </div>
 
 

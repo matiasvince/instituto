@@ -76,7 +76,7 @@ const CursosAlumnosFormulario = () => {
                 alert("Se agrego correctamente");
                 history.push(`/administrar/${id_curso}`);
             })
-            .catch(() => alert("Hubo un error al agregar la curso."));
+            .catch(() => alert("No se pudo agregar el alumno. Probablemente los cupos estén llenos"));
     }
 
     const editarCursoAlumno = () => {

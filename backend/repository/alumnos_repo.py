@@ -11,7 +11,7 @@ class AlumnosRepositorio():
         return session.execute(select(AlumnosBd).where(AlumnosBd.legajo == legajo)).scalar()
 
     def alumnos_por_apellido(self, apellido:str, session:Session):
-        return session.execute(select(AlumnosBd).where(column('apellido').ilike(f'{apellido}%'))).scalars().all()
+        return session.execute(select(AlumnosBd).where(column('apellido').ilike(f'%{apellido}%'))).scalars().all()
 
     def agregar(self, datos: AlumnoSinId, session:Session):
         instancia_bd = AlumnosBd(nombre= datos.nombre, apellido= datos.apellido)
