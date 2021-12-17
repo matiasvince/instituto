@@ -205,7 +205,7 @@ const CursosFormulario = () => {
                         </div>
 
                         <div class="input-group mb-3">
-                            <label class="input-group-text" for="profesor_option">Profesor</label>
+                            <label class="input-group-text" for="profesor_option">Titular</label>
                             <select class="form-select" id="profesor_option">
                                 <option selected value='null'>Seleccione un profesor</option>
                                 {profesores.map((profesor) => {

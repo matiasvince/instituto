@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import DatePicker, { registerLocale } from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
@@ -11,7 +11,7 @@ const AsistenciasFormulario = () => {
 
     const [curso, setCurso] = useState([]);
     const [fechas, setFechas] = useState([]);
-    const [fecha, setFecha] = useState(new Date());
+    const [fecha, setFecha] = useState();
     const [fechaInicio, setFechaInicio] = useState(new Date());
     const [fechaFin, setFechaFin] = useState(new Date());
     const [fechaString, setFechaString] = useState('');
@@ -144,7 +144,7 @@ const AsistenciasFormulario = () => {
                     </select>
                 </div>
                 <div className="input-group mb-3 ms-5">
-                    <span className="input-group-text" id="inputGroup-sizing-default">Fecha fin</span>
+                    <span className="input-group-text" id="inputGroup-sizing-default">Fecha</span>
                     <div>
                         <DatePicker dateFormat="dd/MM/yyyy" locale='es' className="form-control" selected={fecha}
                             onChange={(date) => {
@@ -152,9 +152,9 @@ const AsistenciasFormulario = () => {
                                 setFechaString(date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear());
                             }}
                             highlightDates={fechas}
-                            onClick={() => obtenerFechas()} 
-                            includeDateIntervals={[{start: fechaInicio, end: fechaFin}]}
-                            />
+                            onClick={() => obtenerFechas()}
+                            includeDateIntervals={[{ start: fechaInicio, end: fechaFin }]}
+                        />
                     </div>
                 </div>
             </div>
@@ -189,7 +189,7 @@ const AsistenciasFormulario = () => {
                     </table>
                 </div>
                 <div class="d-flex flex-row-reverse bd-highlight">
-                    <button className="btn btn-success px-5 me-2" onClick={() => agregarAsistencia()}>Aplicar</button>
+                    <button disabled={fecha != null ? false : true} className="btn btn-success px-5 me-2" onClick={() => agregarAsistencia()}>Aplicar</button>
                 </div>
             </div>
         </>

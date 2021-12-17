@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 const AlumnoDetalle = () => {
 
     const [alumno, setAlumno] = useState([]);
     const [cursos, setCursos] = useState([]);
-    const history = useHistory();
     const { legajo } = useParams();
 
     useEffect(() => {
@@ -14,7 +13,7 @@ const AlumnoDetalle = () => {
         setCursos([])
         obtenerAlumno();
         obtenerCursos();
-    }, []);
+    });
 
     const obtenerCursos = () => {
         setCursos([]);
@@ -67,7 +66,6 @@ const AlumnoDetalle = () => {
             })
     }
 
-    let icon_style = { fontSize: "1.1em" };
 
     return (
         <>

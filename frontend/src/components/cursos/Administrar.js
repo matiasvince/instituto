@@ -116,7 +116,7 @@ const Administrar = () => {
             <div className="d-flex justify-content-between align-items-center mt-3">
                 <h2 className="p-2 ms-4">CURSO</h2>
                 <div className='me-5'>
-                    <button className='btn btn-warning' onClick={() => { history.push(`/asistencias/${id_curso}`) }}>Tomar asistencia</button>
+                    <button className='btn btn-warning px-4' onClick={() => { history.push(`/asistencias/${id_curso}`) }}>Asistencia</button>
                 </div>
             </div>
 
