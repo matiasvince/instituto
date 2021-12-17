@@ -190,7 +190,7 @@ const Administrar = () => {
                                     <h2>Alumnos</h2>
                                 </div>
                                 <div className='col-4 d-flex flex-row-reverse'>
-                                    <button className='btn btn-primary' id='agregar_alumno' onClick={() => history.push(`/administraralumno/nuevo/${id_curso}`)}>Agregar</button>
+                                    <button className='btn btn-primary' id='agregar_alumno' onClick={() => history.push(`/administraralumnos/nuevo/${id_curso}`)}>Agregar</button>
                                 </div>
                             </div>
                         </div>

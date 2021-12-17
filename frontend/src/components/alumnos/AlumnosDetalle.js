@@ -13,7 +13,7 @@ const AlumnoDetalle = () => {
         setCursos([])
         obtenerAlumno();
         obtenerCursos();
-    });
+    }, []);
 
     const obtenerCursos = () => {
         setCursos([]);

@@ -49,7 +49,7 @@ const RouterComponent = () => {
 
                 <Route path='/administrar/:id_curso' component={Administrar} />
 
-                <Route path='/administraralumno/nuevo/:id_curso' component={CursosAlumnosFormulario} />
+                <Route path='/administraralumnos/nuevo/:id_curso' component={CursosAlumnosFormulario} />
                 <Route path='/administraralumno/:id_curso/:legajo' component={CursosAlumnosFormulario} />
                 
                 <Route path='/administrarprofesor/nuevo/:id_curso' component={CursosProfesoresFormulario} />

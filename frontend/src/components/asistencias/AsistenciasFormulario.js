@@ -34,9 +34,10 @@ const AsistenciasFormulario = () => {
         var final = subDays(date, 0);
         setFechaInicio(final);
 
-        var parts_fecha2 = fecha_fin.split("-");
-        var date2 = new Date(Number(parts_fecha2[2]), Number(parts_fecha2[1]) - 1, Number(parts_fecha2[0]));
-        var final2 = subDays(date2, 0);
+        
+        // var parts_fecha2 = fecha_fin.split("-");
+        // var date2 = new Date(Number(parts_fecha2[2]), Number(parts_fecha2[1]) - 1, Number(parts_fecha2[0]));
+        var final2 = subDays(new Date.now(), 0);
         setFechaFin(final2);
     }
 
@@ -176,10 +177,10 @@ const AsistenciasFormulario = () => {
                                         <td>{asistencia.fecha}</td>
                                         <td>
                                             <select class="form-select" id={`asistencia_option_${asistencia.legajo}`}>
-                                                <option value='null' selected={asistencia.asistencia == 'null' ? true : false}>Seleccione una opcion</option>
+                                                <option value='null'>Seleccione una opcion</option>
                                                 <option value='Ausente' selected={asistencia.asistencia == 'Ausente' ? true : false}>Ausente</option>
                                                 <option value='Ausente c/J' selected={asistencia.asistencia == 'Ausente c/J' ? true : false}>Ausente c/J</option>
-                                                <option value='Presente' selected={asistencia.asistencia == 'Presente' ? true : false}>Presente</option>
+                                                <option value='Presente' selected={asistencia.asistencia == 'Presente' || asistencia.asistencia == 'null' ? true : false}>Presente</option>
                                             </select>
                                         </td>
                                     </tr>

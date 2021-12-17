@@ -92,6 +92,7 @@ const CursosAlumnosFormulario = () => {
     //Arreglar para que se use con obtener con legajo y id_curso, directamente llamando por el back
     const obtenerAlumnos = () => {
         setAlumnos([]);
+        var validar = true;
         axios.get('http://localhost:8000/alumnos')
             .then((response) => {
                 const alumns = response.data;
@@ -103,7 +104,13 @@ const CursosAlumnosFormulario = () => {
                             if (cursosalumno.length > 0 && !cursosalumno.some((a) => a.id_curso == id_curso)) {
                                 cursosalumno.map((ca) => {
                                     if (ca.id_curso != id_curso) {
-                                        setAlumnos(alumnos => [...alumnos, alumn]);
+                                        if(cursosalumno.length > 1 && validar){
+                                                setAlumnos(alumnos => [...alumnos, alumn]);
+                                                validar = false;
+                                        }
+                                        else if(cursosalumno.length == 1){
+                                            setAlumnos(alumnos => [...alumnos, alumn]);
+                                        }
                                     }
                                 })
                             }
@@ -151,7 +158,7 @@ const CursosAlumnosFormulario = () => {
                             <label class="input-group-text" for="estado_option">Estado</label>
                             <select class="form-select" id="estado_option">
                                 <option selected value='null'>Seleccione un estado</option>
-                                <option ref={estadoInputRef} value="Cursando">Cursando</option>
+                                <option selected ref={estadoInputRef} value="Cursando">Cursando</option>
                                 <option ref={estadoInputRef} value="Regular">Regular</option>
                                 <option ref={estadoInputRef} value="Aprobado">Aprobado</option>
                             </select>

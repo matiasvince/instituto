@@ -58,6 +58,9 @@ const CursosFormulario = () => {
                             cantidad_alumnosInputRef.current.value = curso.cantidad_alumnos;
                         });
                 })
+                .catch(() => {
+                    alert('Entro aca')
+                })
 
             // axios.get(`http://localhost:8000/profesores`)
             //     .then((resp) => {
@@ -89,6 +92,16 @@ const CursosFormulario = () => {
     }, [id_curso]);
 
 
+    const validarFechas = () => {
+        
+        if (fechaInicio <= fechaFin) {
+            return true;
+        }
+        else if (fechaInicio > fechaFin){
+            return false;
+        }
+    }
+
     const nuevo = () => {
         return {
             // id: idInputRef.current.value,
@@ -115,49 +128,59 @@ const CursosFormulario = () => {
     }
 
     const agregarCurso = () => {
-        const curso = nuevo();
-
-        var selected_profesor = document.getElementById('profesor_option');
-        var profesor_selected = selected_profesor.options[selected_profesor.selectedIndex].value;
-
-        if (profesor_selected != 'null') {
-            axios.post('http://localhost:8000/cursos/', curso)
-                .then((response) => {
-                    axios.post('http://localhost:8000/cursosprofesores/', { 'id_curso': response.data.id, 'id_profesor': profesor_selected, 'cargo': 'Titular' })
-                        .then(() => {
-                            alert("Se agrego correctamente");
-                            history.push('/cursos');
-                        })
-                })
-                .catch(() => alert("Hubo un error al agregar la curso. Revise todos los campos"));
+        if(validarFechas()) {
+            const curso = nuevo();
+    
+            var selected_profesor = document.getElementById('profesor_option');
+            var profesor_selected = selected_profesor.options[selected_profesor.selectedIndex].value;
+    
+            if (profesor_selected != 'null') {
+                axios.post('http://localhost:8000/cursos/', curso)
+                    .then((response) => {
+                        axios.post('http://localhost:8000/cursosprofesores/', { 'id_curso': response.data.id, 'id_profesor': profesor_selected, 'cargo': 'Titular' })
+                            .then(() => {
+                                alert("Se agrego correctamente");
+                                history.push('/cursos');
+                            })
+                    })
+                    .catch(() => alert("Hubo un error al agregar la curso. Revise todos los campos"));
+            }
+            else {
+                alert('Debe seleccionar un profesor titular');
+            }
         }
         else {
-            alert('Debe seleccionar un profesor titular');
+            alert('La fecha de inicio no puede ser posterior a la fecha de fin.')
         }
     }
 
     const editarCurso = () => {
         const curso = edit();
 
-        axios.put(`http://localhost:8000/cursos/${curso.id}`, curso)
-            .then(() => {
-                axios.get(`http://localhost:8000/cursosprofesores/id_curso/${curso.id}`)
-                    .then((resp) => {
-                        const profes = resp.data;
-                        profes.map(profe => {
-                            if (profe.cargo == 'Titular') {
-                                const final = { 'id_curso': curso.id, 'id_profesor': curso.id_profesor, 'cargo': 'Titular' }
-                                axios.put(`http://localhost:8000/cursosprofesores/${curso.id}/${profe.id_profesor}`, final)
-                                    .then(() => {
-                                        alert('Se edito correctamente');
-                                        history.push('/cursos')
-                                    })
-                                    .catch(() => alert('Hubo un error al editar la curso. Probablemente el profesor que se seleccionó sea el auxiliar del curso'));
-                            }
+        if(validarFechas()) {
+            axios.put(`http://localhost:8000/cursos/${curso.id}`, curso)
+                .then(() => {
+                    axios.get(`http://localhost:8000/cursosprofesores/id_curso/${curso.id}`)
+                        .then((resp) => {
+                            const profes = resp.data;
+                            profes.map(profe => {
+                                if (profe.cargo == 'Titular') {
+                                    const final = { 'id_curso': curso.id, 'id_profesor': curso.id_profesor, 'cargo': 'Titular' }
+                                    axios.put(`http://localhost:8000/cursosprofesores/${curso.id}/${profe.id_profesor}`, final)
+                                        .then(() => {
+                                            alert('Se edito correctamente');
+                                            history.push('/cursos')
+                                        })
+                                        .catch(() => alert('Hubo un error al editar la curso. Probablemente el profesor que se seleccionó sea el auxiliar del curso'));
+                                }
+                            })
                         })
-                    })
-            })
-            .catch(() => alert('Hubo un error al editar la curso. Probablemente el profesor que se seleccionó sea el auxiliar del curso'));
+                })
+                .catch(() => alert('Hubo un error al editar la curso. Probablemente el profesor que se seleccionó sea el auxiliar del curso'));
+        }
+        else{
+            alert('Controlar fechas')
+        }
     }
 
     const obtenerProfesores = () => {
@@ -207,10 +230,10 @@ const CursosFormulario = () => {
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="profesor_option">Titular</label>
                             <select class="form-select" id="profesor_option">
-                                <option selected value='null'>Seleccione un profesor</option>
+                                <option value='null'>Seleccione un profesor</option>
                                 {profesores.map((profesor) => {
                                     return <>
-                                        <option value={profesor.id}>{profesor.id} - {profesor.nombre} {profesor.apellido}</option>
+                                        <option selected={profesor.cargo == 'Titular'} value={profesor.id}>{profesor.id} - {profesor.nombre} {profesor.apellido}</option>
                                     </>
                                 })}
                             </select>
